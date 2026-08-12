@@ -248,7 +248,7 @@ export function renderStore(store, index) {
   tornLabel.textContent = '嘿嘿..去過囉😎';
   const undo = document.createElement('span');
   undo.className = 'ticket__undo';
-  undo.textContent = '撕回來';
+  undo.textContent = '還沒去過捏...🥲';
   torn.append(tornLabel, undo);
   li.appendChild(torn);
 
