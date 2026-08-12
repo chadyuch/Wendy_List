@@ -80,6 +80,32 @@ export function updateProgress(visitedCount, total) {
   barEl.style.width = total > 0 ? `${(visitedCount / total) * 100}%` : '0';
 }
 
+/**
+ * 票根進入視野時觸發進場浮現與暖光掃過，各自只觸發一次。
+ * 浮現以索引錯開 90ms，形成依序浮現的節奏。
+ */
+export function observeTickets(elements) {
+  if (!('IntersectionObserver' in window)) {
+    elements.forEach((el) => el.classList.add('is-in', 'is-sheened'));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      const el = entry.target;
+      const order = Number(el.dataset.order || 0);
+      el.style.animationDelay = `${order * 90}ms`;
+      el.classList.add('is-in');
+      // 暖光在浮現結束後才掃，避免兩組動畫疊在一起
+      window.setTimeout(() => el.classList.add('is-sheened'), order * 90 + 620);
+      observer.unobserve(el);
+    }
+  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.15 });
+
+  elements.forEach((el) => observer.observe(el));
+}
+
 /** 由 id 推導穩定的暖色階編號，讓每家店的色塊不同但同調。 */
 export function toneFor(id) {
   let hash = 0;
@@ -268,10 +294,12 @@ async function init() {
       updateProgress(visited.size(), stores.length);
     });
 
+    el.dataset.order = String(i % 5);
     fragment.appendChild(el);
   });
 
   listEl.appendChild(fragment);
+  observeTickets([...listEl.querySelectorAll('.ticket')]);
   updateProgress(visited.size(), stores.length);
 }
 
