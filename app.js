@@ -109,6 +109,14 @@ export function observeTickets(elements) {
 const IG_SCRIPT = 'https://www.instagram.com/embed.js';
 let igScriptPromise = null;
 
+/**
+ * Instagram 的嵌入只接受單篇貼文（/p/、/reel/、/tv/）的永久連結，
+ * 帳號首頁不會被渲染。判斷後改走直接開啟連結，避免空等逾時。
+ */
+export function isEmbeddablePost(url) {
+  return /^https:\/\/www\.instagram\.com\/(p|reel|tv)\/[^/]+/.test(url);
+}
+
 /** Instagram 嵌入腳本全頁只載入一次，且只在使用者第一次展開時才載入。 */
 export function loadInstagramScript() {
   if (igScriptPromise) return igScriptPromise;
@@ -127,7 +135,8 @@ export function loadInstagramScript() {
 export function attachEmbed(ticketEl, store) {
   const button = ticketEl.querySelector('.ticket__reveal');
   const container = ticketEl.querySelector('.ticket__embed');
-  if (!button || !container) return;
+  // 帳號首頁的情況下這裡是 <a>，不應攔截它的預設導覽行為
+  if (!button || button.tagName !== 'BUTTON' || !container) return;
 
   let built = false;
   let open = false;
@@ -285,12 +294,21 @@ export function renderStore(store, index) {
   nav.textContent = '導航前往';
   actions.appendChild(nav);
 
-  if (store.instagram) {
+  if (store.instagram && isEmbeddablePost(store.instagram)) {
     const reveal = document.createElement('button');
     reveal.className = 'ticket__reveal';
     reveal.type = 'button';
     reveal.textContent = '看實景 ↓';
     actions.appendChild(reveal);
+  } else if (store.instagram) {
+    // 帳號首頁無法嵌入，直接給連結
+    const link = document.createElement('a');
+    link.className = 'ticket__reveal';
+    link.href = store.instagram;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.textContent = 'Instagram ↗';
+    actions.appendChild(link);
   }
   li.appendChild(actions);
 
@@ -367,7 +385,7 @@ async function init() {
       updateProgress(visited.size(), stores.length);
     });
 
-    if (store.instagram) attachEmbed(el, store);
+    if (store.instagram && isEmbeddablePost(store.instagram)) attachEmbed(el, store);
 
     el.dataset.order = String(i % 5);
     fragment.appendChild(el);
