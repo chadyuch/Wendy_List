@@ -1,0 +1,62 @@
+[
+  {
+    "id": "edia-cafe",
+    "name": "edia cafe",
+    "subtitle": "自家烘焙咖啡",
+    "address": "台中市南屯區大進街691號",
+    "hours": "10:00–20:00・週三公休",
+    "navQuery": "edia cafe 台中市南屯區大進街691號",
+    "mapUrl": "https://maps.app.goo.gl/wF4fsygYZY2kMiMX8",
+    "instagram": null,
+    "photo": null,
+    "photoCredit": null
+  },
+  {
+    "id": "thirteen-coffee",
+    "name": "十三咖啡",
+    "subtitle": "陶鍋手工烘焙・無菜單虹吸單品",
+    "address": "台中市南屯區環中路五段200號",
+    "hours": "13:00 至天黑",
+    "navQuery": "十三咖啡 台中市南屯區環中路五段200號",
+    "mapUrl": "https://maps.app.goo.gl/3gbdSJouBT3rywxPA",
+    "instagram": "https://www.instagram.com/thirteencoffee13/",
+    "photo": null,
+    "photoCredit": null
+  },
+  {
+    "id": "caramel-eggroll-lab",
+    "name": "蛋捲實驗室",
+    "subtitle": "焦糖流心蛋捲專門店",
+    "address": "台中市西區林森路69巷13號",
+    "hours": "10:00–18:00",
+    "navQuery": "蛋捲實驗室 台中市西區林森路69巷13號",
+    "mapUrl": "https://maps.app.goo.gl/Yp5bzC2Jpb73rR4Z6",
+    "instagram": "https://www.instagram.com/caramel_eggroll_lab/",
+    "photo": null,
+    "photoCredit": null
+  },
+  {
+    "id": "mountaintown-liming",
+    "name": "Mountaintown Liming",
+    "subtitle": "貓燙黎明・老宅廢墟風咖啡",
+    "address": "台中市南屯區干城街145巷1弄9號",
+    "hours": "11:00–19:00",
+    "navQuery": "Mountaintown Liming 貓燙黎明 台中市南屯區",
+    "mapUrl": null,
+    "instagram": "https://www.instagram.com/reel/DLpZIFLzWP6/",
+    "photo": null,
+    "photoCredit": null
+  },
+  {
+    "id": "ruders-cafe",
+    "name": "Ruder's Café",
+    "subtitle": "路得行旅台中館・日式復古",
+    "address": "台中市中區・路得行旅台中館 6F",
+    "hours": null,
+    "navQuery": "Ruder's Café 路得行旅台中館",
+    "mapUrl": null,
+    "instagram": "https://www.instagram.com/reel/DYPQRW2q_cj/",
+    "photo": null,
+    "photoCredit": null
+  }
+]
