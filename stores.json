@@ -32,8 +32,8 @@
     "navQuery": "蛋捲實驗室 台中市西區林森路69巷13號",
     "mapUrl": "https://maps.app.goo.gl/Yp5bzC2Jpb73rR4Z6",
     "instagram": "https://www.instagram.com/p/DP03f_qkiwb/",
-    "photo": null,
-    "photoCredit": null
+    "photo": "images/caramel-eggroll-lab.jpg",
+    "photoCredit": "© 蛋捲實驗室官方 Instagram"
   },
   {
     "id": "mountaintown-liming",
@@ -44,8 +44,8 @@
     "navQuery": "Mountaintown Liming 貓燙黎明 台中市南屯區",
     "mapUrl": null,
     "instagram": "https://www.instagram.com/reel/DLpZIFLzWP6/",
-    "photo": null,
-    "photoCredit": null
+    "photo": "images/mountaintown-liming.jpg",
+    "photoCredit": "攝影 @wu___foodie"
   },
   {
     "id": "ruders-cafe",
@@ -56,7 +56,7 @@
     "navQuery": "Norden Ruder 路得行旅台中館",
     "mapUrl": null,
     "instagram": "https://www.instagram.com/reel/DYPQRW2q_cj/",
-    "photo": null,
-    "photoCredit": null
+    "photo": "images/ruders-cafe.jpg",
+    "photoCredit": "攝影 @achifood"
   }
 ]
