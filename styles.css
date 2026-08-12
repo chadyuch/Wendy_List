@@ -259,17 +259,6 @@ body {
   cursor: pointer;
 }
 
-/* Instagram 嵌入容器 */
-.ticket__embed { padding: 0 14px 12px; }
-.ticket__embed:empty { display: none; }
-.ticket__embed blockquote { margin: 0 !important; }
-
-.ticket__fallback {
-  display: inline-block;
-  font-size: 11px;
-  color: var(--accent);
-}
-
 /* 撕線與下半截 ---------------------------------------- */
 
 .ticket__perf {
