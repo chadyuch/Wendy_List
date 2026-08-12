@@ -1,0 +1,371 @@
+/* ============================================================
+   台中待訪 — 溫暖手感
+   色票與設計語彙集中於此，app.js 只切換 class、不寫樣式值
+   ============================================================ */
+
+:root {
+  --bg: #e6dccb;
+  --paper: #fdfaf3;
+  --paper-alt: #f6efe2;
+  --ink: #3a2d1d;
+  --muted: #8a7458;
+  --faint: #a8977c;
+  --line: #e0d3bc;
+  --dash: #d5c4a6;
+  --accent: #8a6b49;
+  --torn: #b0553f;
+
+  --serif: 'Noto Serif TC', Georgia, 'Times New Roman', serif;
+  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans TC',
+          'Microsoft JhengHei', sans-serif;
+
+  --radius: 6px;
+  --shadow: 0 2px 0 rgba(120, 95, 60, .10);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+.page {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 32px 16px calc(48px + env(safe-area-inset-bottom));
+}
+
+/* ---------- 頁首 ---------- */
+
+.masthead { margin-bottom: 26px; }
+
+.masthead__title {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 26px;
+  letter-spacing: .06em;
+  margin: 0;
+}
+
+.masthead__meta {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin: 10px 0 0;
+  font-size: 11px;
+  letter-spacing: .14em;
+  color: var(--muted);
+}
+
+.masthead__total { color: var(--faint); }
+
+/* 進度數字：翻頁效果由 counter__track 的位移完成 */
+.counter {
+  display: inline-block;
+  height: 20px;
+  overflow: hidden;
+  vertical-align: -5px;
+}
+
+.counter__track { display: block; }
+
+.counter__track i {
+  display: block;
+  height: 20px;
+  line-height: 20px;
+  font-family: var(--serif);
+  font-style: normal;
+  font-size: 17px;
+  color: var(--ink);
+}
+
+.progress {
+  height: 3px;
+  margin-top: 10px;
+  background: #dcd0bb;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--accent);
+  border-radius: 3px;
+}
+
+/* ---------- 錯誤與空狀態 ---------- */
+
+.notice {
+  margin: 0 0 20px;
+  padding: 16px 18px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.notice__retry {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 6px 14px;
+  border: 1px solid var(--accent);
+  border-radius: 20px;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* ---------- 票根清單 ---------- */
+
+.stores {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ticket {
+  position: relative;
+  margin-bottom: 18px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+/* 照片區 ------------------------------------------------ */
+
+.ticket__visual {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--paper-alt);
+}
+
+.ticket__photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 無照片時的溫暖色塊，色階由 app.js 以 data-tone 指定 */
+.ticket__visual[data-tone="1"] { background: linear-gradient(155deg, #d8bb92, #a9855c 52%, #7d6244); }
+.ticket__visual[data-tone="2"] { background: linear-gradient(155deg, #c9a878, #9c7c58 52%, #6f5942); }
+.ticket__visual[data-tone="3"] { background: linear-gradient(155deg, #d3b48c, #b08e63 52%, #7a6146); }
+.ticket__visual[data-tone="4"] { background: linear-gradient(155deg, #cbb08d, #a08260 52%, #6b5540); }
+.ticket__visual[data-tone="5"] { background: linear-gradient(155deg, #dcc3a0, #b1906a 52%, #806848); }
+.ticket__visual[data-tone="6"] { background: linear-gradient(155deg, #c4a175, #8f7150 52%, #63503b); }
+
+.ticket__ordinal {
+  position: absolute;
+  left: 14px;
+  bottom: 8px;
+  font-family: var(--serif);
+  font-size: 46px;
+  line-height: 1;
+  color: rgba(253, 250, 243, .34);
+  pointer-events: none;
+  user-select: none;
+}
+
+.ticket__credit {
+  position: absolute;
+  right: 8px;
+  bottom: 6px;
+  font-size: 8.5px;
+  color: rgba(253, 250, 243, .72);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+}
+
+/* 暖光掃過 */
+.ticket__sheen {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 34%, rgba(255, 241, 214, .6) 50%, transparent 66%);
+  transform: translateX(-115%);
+  pointer-events: none;
+}
+
+/* 內文 ------------------------------------------------ */
+
+.ticket__body { padding: 13px 14px 9px; }
+
+.ticket__name {
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: .01em;
+}
+
+.ticket__subtitle {
+  margin: 5px 0 0;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+.ticket__lines {
+  margin: 9px 0 0;
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.ticket__lines span { display: block; }
+
+/* 動作列（撕線之上，撕開後仍在） ----------------------- */
+
+.ticket__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 14px 12px;
+}
+
+.ticket__nav {
+  flex: 1;
+  padding: 9px 0;
+  border-radius: 5px;
+  background: var(--accent);
+  color: var(--paper);
+  font-size: 11.5px;
+  text-align: center;
+  text-decoration: none;
+  letter-spacing: .06em;
+}
+
+.ticket__reveal {
+  padding: 9px 12px;
+  border: 1px solid #c9b795;
+  border-radius: 5px;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+/* Instagram 嵌入容器 */
+.ticket__embed { padding: 0 14px 12px; }
+.ticket__embed:empty { display: none; }
+.ticket__embed blockquote { margin: 0 !important; }
+
+.ticket__fallback {
+  display: inline-block;
+  font-size: 11px;
+  color: var(--accent);
+}
+
+/* 撕線與下半截 ---------------------------------------- */
+
+.ticket__perf {
+  margin: 0 11px;
+  border-top: 1px dashed var(--dash);
+}
+
+.ticket__stub {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 9px 14px 11px;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--faint);
+  text-align: left;
+  cursor: pointer;
+  transform-origin: left center;
+}
+
+.ticket__no { font-size: 8.5px; letter-spacing: .14em; }
+
+.ticket__hint { font-size: 10px; color: var(--muted); }
+
+/* 已去過標記，撕開後浮現 */
+.ticket__torn {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 12px;
+  text-align: center;
+  font-family: var(--serif);
+  font-size: 12px;
+  letter-spacing: .2em;
+  color: var(--torn);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* 已去過狀態 */
+.ticket.is-visited { background: #f3ede2; border-color: #ddd2be; }
+.ticket.is-visited .ticket__visual { filter: grayscale(.7) brightness(.95); }
+.ticket.is-visited .ticket__name,
+.ticket.is-visited .ticket__subtitle,
+.ticket.is-visited .ticket__lines { color: #6b6252; }
+.ticket.is-visited .ticket__stub { opacity: 0; }
+.ticket.is-visited .ticket__torn { opacity: 1; }
+
+.colophon {
+  margin-top: 30px;
+  font-size: 10.5px;
+  color: var(--faint);
+  text-align: center;
+}
+
+.colophon p { margin: 0; }
+
+/* ============================================================
+   動畫 — 全部包在 prefers-reduced-motion: no-preference
+   ============================================================ */
+
+@media (prefers-reduced-motion: no-preference) {
+
+  /* 1. 紙感按壓 */
+  .ticket {
+    transition: transform .12s cubic-bezier(.34, 1.4, .64, 1),
+                box-shadow .12s ease,
+                background-color .5s ease,
+                border-color .5s ease;
+  }
+  .ticket:active { transform: translateY(3px) scale(.985); box-shadow: 0 0 0 rgba(120, 95, 60, .1); }
+
+  /* 2. 撕票根 */
+  .ticket__stub { transition: transform .55s cubic-bezier(.3, .9, .3, 1), opacity .5s ease; }
+  .ticket.is-visited .ticket__stub { transform: translate(14px, 26px) rotate(7deg); }
+  .ticket__torn { transition: opacity .4s ease .28s; }
+  .ticket__visual { transition: filter .55s ease; }
+
+  /* 3. 依序浮現 */
+  .ticket { opacity: 0; transform: translateY(14px); }
+  .ticket.is-in { animation: rise .62s cubic-bezier(.2, .9, .3, 1) forwards; }
+  @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+
+  /* 4. 暖光掃過 */
+  .ticket.is-sheened .ticket__sheen { animation: sweep 1.05s ease; }
+  @keyframes sweep { to { transform: translateX(115%); } }
+
+  /* 5. 進度翻數字 */
+  .counter__track { transition: transform .5s cubic-bezier(.2, 1.1, .3, 1); }
+  .progress i { transition: width .7s cubic-bezier(.2, .9, .3, 1); }
+}
+
+/* 關閉動態效果時，票根必須直接可見 */
+@media (prefers-reduced-motion: reduce) {
+  .ticket { opacity: 1; transform: none; }
+  .ticket__sheen { display: none; }
+}

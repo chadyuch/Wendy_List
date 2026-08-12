@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>台中待訪</title>
+<meta name="description" content="想去但還沒去過的台中店家清單">
+<meta name="theme-color" content="#e6dccb">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;600&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<main class="page">
+
+  <header class="masthead">
+    <h1 class="masthead__title">台中待訪</h1>
+    <p class="masthead__meta">
+      已造訪
+      <span class="counter" id="progress-count" data-value="0"><span class="counter__track"><i>0</i></span></span>
+      <span class="masthead__total">/ <span id="progress-total">0</span></span>
+    </p>
+    <div class="progress"><i id="progress-bar"></i></div>
+  </header>
+
+  <p class="notice" id="error" hidden></p>
+
+  <ul class="stores" id="store-list"></ul>
+
+  <footer class="colophon">
+    <p>撕下票根代表去過了，再點一次可以復原。</p>
+  </footer>
+
+</main>
+<script src="app.js" type="module"></script>
+</body>
+</html>
