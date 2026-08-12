@@ -5,6 +5,81 @@ const listEl = document.getElementById('store-list');
 const errorEl = document.getElementById('error');
 const totalEl = document.getElementById('progress-total');
 
+const STORAGE_KEY = 'taichung-list:visited';
+const countEl = document.getElementById('progress-count');
+const barEl = document.getElementById('progress-bar');
+
+/**
+ * 已去過狀態。localStorage 不可用時（無痕模式）自動降級為記憶體，
+ * 當次瀏覽仍可運作，不拋錯。
+ */
+export function createVisitedStore() {
+  let usable = true;
+  let memory = new Set();
+
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) memory = new Set(parsed.filter((v) => typeof v === 'string'));
+    }
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify([...memory]));
+  } catch {
+    usable = false;
+  }
+
+  function persist() {
+    if (!usable) return;
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify([...memory]));
+    } catch {
+      usable = false;
+    }
+  }
+
+  return {
+    has: (id) => memory.has(id),
+    size: () => memory.size,
+    toggle(id) {
+      if (memory.has(id)) memory.delete(id);
+      else memory.add(id);
+      persist();
+      return memory.has(id);
+    },
+  };
+}
+
+/** 更新進度數字與進度條。數字以軌道位移做翻頁效果。 */
+export function updateProgress(visitedCount, total) {
+  const track = countEl.querySelector('.counter__track');
+  const current = countEl.dataset.value;
+  const next = String(visitedCount);
+
+  if (current !== next) {
+    const incoming = document.createElement('i');
+    incoming.textContent = next;
+    track.appendChild(incoming);
+    // 強制回流後再位移，確保過渡會被觸發
+    void track.offsetHeight;
+    track.style.transform = 'translateY(-20px)';
+    const settle = () => {
+      track.style.transition = 'none';
+      track.style.transform = 'translateY(0)';
+      track.replaceChildren(incoming);
+      void track.offsetHeight;
+      track.style.transition = '';
+    };
+    track.addEventListener('transitionend', settle, { once: true });
+    // 動畫被停用時 transitionend 不會觸發，用逾時保底
+    window.setTimeout(() => {
+      if (track.childElementCount > 1) settle();
+    }, 600);
+    countEl.dataset.value = next;
+  }
+
+  barEl.style.width = total > 0 ? `${(visitedCount / total) * 100}%` : '0';
+}
+
 /** 由 id 推導穩定的暖色階編號，讓每家店的色塊不同但同調。 */
 export function toneFor(id) {
   let hash = 0;
@@ -179,9 +254,25 @@ async function init() {
   }
 
   totalEl.textContent = String(stores.length);
+
+  const visited = createVisitedStore();
   const fragment = document.createDocumentFragment();
-  stores.forEach((store, i) => fragment.appendChild(renderStore(store, i)));
+
+  stores.forEach((store, i) => {
+    const el = renderStore(store, i);
+    if (visited.has(store.id)) el.classList.add('is-visited');
+
+    el.querySelector('.ticket__stub').addEventListener('click', () => {
+      const nowVisited = visited.toggle(store.id);
+      el.classList.toggle('is-visited', nowVisited);
+      updateProgress(visited.size(), stores.length);
+    });
+
+    fragment.appendChild(el);
+  });
+
   listEl.appendChild(fragment);
+  updateProgress(visited.size(), stores.length);
 }
 
 init();
