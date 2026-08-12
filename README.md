@@ -4,7 +4,7 @@
 
 ## 線上版
 
-https://chadyuch.github.io/taichung-list/
+https://chadyuch.github.io/Wendy_List/
 
 ## 本機預覽
 
