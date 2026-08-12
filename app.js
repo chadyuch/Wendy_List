@@ -333,9 +333,16 @@ export function renderStore(store, index) {
   stub.append(no, hint);
   li.appendChild(stub);
 
-  const torn = document.createElement('span');
+  // 撕開後浮現的標記本身就是復原按鈕，否則使用者找不到怎麼撕回來
+  const torn = document.createElement('button');
   torn.className = 'ticket__torn';
-  torn.textContent = '已去過';
+  torn.type = 'button';
+  const tornLabel = document.createElement('span');
+  tornLabel.textContent = '已去過';
+  const undo = document.createElement('span');
+  undo.className = 'ticket__undo';
+  undo.textContent = '撕回來';
+  torn.append(tornLabel, undo);
   li.appendChild(torn);
 
   return li;
@@ -379,11 +386,14 @@ async function init() {
     const el = renderStore(store, i);
     if (visited.has(store.id)) el.classList.add('is-visited');
 
-    el.querySelector('.ticket__stub').addEventListener('click', () => {
+    // 下半截負責「撕開」，浮現的標記負責「撕回來」，兩者都走同一條切換路徑
+    const toggleVisited = () => {
       const nowVisited = visited.toggle(store.id);
       el.classList.toggle('is-visited', nowVisited);
       updateProgress(visited.size(), stores.length);
-    });
+    };
+    el.querySelector('.ticket__stub').addEventListener('click', toggleVisited);
+    el.querySelector('.ticket__torn').addEventListener('click', toggleVisited);
 
     if (store.instagram && isEmbeddablePost(store.instagram)) attachEmbed(el, store);
 

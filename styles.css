@@ -296,19 +296,37 @@ body {
 
 .ticket__hint { font-size: 10px; color: var(--muted); }
 
-/* 已去過標記，撕開後浮現 */
+/* 已去過標記，撕開後浮現。本身就是復原按鈕。 */
 .ticket__torn {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 12px;
-  text-align: center;
+  bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
   font-family: var(--serif);
   font-size: 12px;
   letter-spacing: .2em;
   color: var(--torn);
   opacity: 0;
   pointer-events: none;
+  cursor: pointer;
+}
+
+.ticket__undo {
+  font-family: var(--sans);
+  font-size: 9.5px;
+  letter-spacing: .08em;
+  color: var(--muted);
+  border: 1px solid #c9b795;
+  border-radius: 20px;
+  padding: 2px 9px;
 }
 
 /* 已去過狀態 */
@@ -317,8 +335,9 @@ body {
 .ticket.is-visited .ticket__name,
 .ticket.is-visited .ticket__subtitle,
 .ticket.is-visited .ticket__lines { color: #6b6252; }
-.ticket.is-visited .ticket__stub { opacity: 0; }
-.ticket.is-visited .ticket__torn { opacity: 1; }
+/* 撕走的下半截不可再被點到，避免攔截復原按鈕的點擊 */
+.ticket.is-visited .ticket__stub { opacity: 0; pointer-events: none; }
+.ticket.is-visited .ticket__torn { opacity: 1; pointer-events: auto; }
 
 .colophon {
   margin-top: 30px;
