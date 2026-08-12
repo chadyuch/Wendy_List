@@ -245,7 +245,7 @@ export function renderStore(store, index) {
   torn.className = 'ticket__torn';
   torn.type = 'button';
   const tornLabel = document.createElement('span');
-  tornLabel.textContent = '已去過';
+  tornLabel.textContent = '嘿嘿..去過囉😎';
   const undo = document.createElement('span');
   undo.className = 'ticket__undo';
   undo.textContent = '撕回來';

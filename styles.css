@@ -301,7 +301,7 @@ body {
   background: none;
   font-family: var(--serif);
   font-size: 12px;
-  letter-spacing: .2em;
+  letter-spacing: .08em;
   color: var(--torn);
   opacity: 0;
   pointer-events: none;
