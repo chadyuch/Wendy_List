@@ -4,7 +4,7 @@
 
 ## 線上版
 
-<!-- 部署後填入 GitHub Pages 網址 -->
+https://chadyuch.github.io/taichung-list/
 
 ## 本機預覽
 
