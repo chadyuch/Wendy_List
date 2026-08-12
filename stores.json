@@ -8,8 +8,8 @@
     "navQuery": "edia cafe 台中市南屯區大進街691號",
     "mapUrl": "https://maps.app.goo.gl/wF4fsygYZY2kMiMX8",
     "instagram": "https://www.instagram.com/ediacafe/",
-    "photo": null,
-    "photoCredit": null
+    "photo": "images/edia-cafe.jpg",
+    "photoCredit": "圖片來源 blue74.net"
   },
   {
     "id": "thirteen-coffee",
@@ -20,8 +20,8 @@
     "navQuery": "十三咖啡 台中市南屯區環中路五段200號",
     "mapUrl": "https://maps.app.goo.gl/3gbdSJouBT3rywxPA",
     "instagram": "https://www.instagram.com/thirteencoffee13/",
-    "photo": null,
-    "photoCredit": null
+    "photo": "images/thirteen-coffee.jpg",
+    "photoCredit": "圖片來源 pepe.tw"
   },
   {
     "id": "caramel-eggroll-lab",
