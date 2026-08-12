@@ -106,6 +106,79 @@ export function observeTickets(elements) {
   elements.forEach((el) => observer.observe(el));
 }
 
+const IG_SCRIPT = 'https://www.instagram.com/embed.js';
+let igScriptPromise = null;
+
+/** Instagram 嵌入腳本全頁只載入一次，且只在使用者第一次展開時才載入。 */
+export function loadInstagramScript() {
+  if (igScriptPromise) return igScriptPromise;
+  igScriptPromise = new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = IG_SCRIPT;
+    script.async = true;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error('embed.js 載入失敗'));
+    document.head.appendChild(script);
+  });
+  return igScriptPromise;
+}
+
+/** 綁定「看實景」：點擊才建立嵌入，再點收合。失敗則退回文字連結。 */
+export function attachEmbed(ticketEl, store) {
+  const button = ticketEl.querySelector('.ticket__reveal');
+  const container = ticketEl.querySelector('.ticket__embed');
+  if (!button || !container) return;
+
+  let built = false;
+  let open = false;
+
+  function fallback() {
+    container.replaceChildren();
+    const link = document.createElement('a');
+    link.className = 'ticket__fallback';
+    link.href = store.instagram;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.textContent = '在 Instagram 開啟 ↗';
+    container.appendChild(link);
+  }
+
+  button.addEventListener('click', async () => {
+    if (built) {
+      open = !open;
+      container.hidden = !open;
+      button.textContent = open ? '收合 ↑' : '看實景 ↓';
+      return;
+    }
+
+    built = true;
+    open = true;
+    button.textContent = '載入中…';
+
+    const quote = document.createElement('blockquote');
+    quote.className = 'instagram-media';
+    quote.dataset.instgrmPermalink = store.instagram;
+    quote.dataset.instgrmVersion = '14';
+    container.replaceChildren(quote);
+
+    // 逾時保底：3 秒內未被 Instagram 腳本改寫就退回文字連結
+    const timer = window.setTimeout(() => {
+      if (!quote.querySelector('iframe')) fallback();
+      button.textContent = '收合 ↑';
+    }, 3000);
+
+    try {
+      await loadInstagramScript();
+      if (window.instgrm?.Embeds?.process) window.instgrm.Embeds.process();
+      button.textContent = '收合 ↑';
+    } catch {
+      window.clearTimeout(timer);
+      fallback();
+      button.textContent = '收合 ↑';
+    }
+  });
+}
+
 /** 由 id 推導穩定的暖色階編號，讓每家店的色塊不同但同調。 */
 export function toneFor(id) {
   let hash = 0;
@@ -293,6 +366,8 @@ async function init() {
       el.classList.toggle('is-visited', nowVisited);
       updateProgress(visited.size(), stores.length);
     });
+
+    if (store.instagram) attachEmbed(el, store);
 
     el.dataset.order = String(i % 5);
     fragment.appendChild(el);
