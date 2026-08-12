@@ -1,4 +1,4 @@
-// 台中待訪 — 資料載入與渲染
+// Wendy List — 資料載入與渲染
 // 樣式一律以 class 切換，本檔不寫任何樣式值。
 
 const listEl = document.getElementById('store-list');

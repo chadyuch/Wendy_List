@@ -55,7 +55,7 @@ const server = createServer(async (req, res) => {
 });
 
 server.listen(port, host, () => {
-  console.log(`台中待訪 → http://localhost:${port}`);
+  console.log(`Wendy List → http://localhost:${port}`);
   if (lan) {
     for (const list of Object.values(networkInterfaces())) {
       for (const net of list || []) {
