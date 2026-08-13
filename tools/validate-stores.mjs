@@ -25,7 +25,7 @@ if (!Array.isArray(stores)) {
 }
 
 const REQUIRED = ['id', 'name', 'navQuery'];
-const OPTIONAL = ['subtitle', 'address', 'hours', 'mapUrl', 'instagram', 'photo', 'photoCredit'];
+const OPTIONAL = ['address', 'tel', 'telDisplay', 'link', 'booking', 'photo', 'photoCredit'];
 const ALLOWED = new Set([...REQUIRED, ...OPTIONAL]);
 const ID_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 
@@ -73,10 +73,18 @@ stores.forEach((store, i) => {
     }
   }
 
-  if (typeof store.instagram === 'string' && store.instagram.trim() !== '') {
-    if (!/^https:\/\/www\.instagram\.com\//.test(store.instagram)) {
-      fail(`${label}：instagram "${store.instagram}" 必須是 https://www.instagram.com/ 開頭的網址`);
+  for (const key of ['link', 'booking']) {
+    const v = store[key];
+    if (typeof v === 'string' && v.trim() !== '' && !/^https?:\/\//.test(v)) {
+      fail(`${label}：${key} "${v}" 必須是 http(s) 開頭的網址`);
     }
+  }
+
+  if (typeof store.tel === 'string' && store.tel.trim() !== '') {
+    if (!/^[\d+]{8,15}$/.test(store.tel)) {
+      fail(`${label}：tel "${store.tel}" 應該是 8-15 位數字（Excel 的前置單引號要清掉）`);
+    }
+    if (!store.telDisplay) fail(`${label}：有 tel 就必須有 telDisplay`);
   }
 });
 

@@ -55,7 +55,7 @@ const server = createServer(async (req, res) => {
 });
 
 server.listen(port, host, () => {
-  console.log(`Wendy List → http://localhost:${port}`);
+  console.log(`Wendy's list → http://localhost:${port}`);
   if (lan) {
     for (const list of Object.values(networkInterfaces())) {
       for (const net of list || []) {

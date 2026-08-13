@@ -1,4 +1,4 @@
-// Wendy List — 資料載入與渲染
+// Wendy's list — 資料載入與渲染
 // 樣式一律以 class 切換，本檔不寫任何樣式值。
 
 const listEl = document.getElementById('store-list');
@@ -120,6 +120,25 @@ export function navUrl(store) {
   return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(store.navQuery)}`;
 }
 
+/** 連結是 Instagram 就標示 Instagram，其餘一律標示「查看」。 */
+export function isInstagram(url) {
+  try {
+    return /(^|\.)instagram\.com$/.test(new URL(url).hostname);
+  } catch {
+    return false;
+  }
+}
+
+function externalLink(className, href, text) {
+  const a = document.createElement('a');
+  a.className = className;
+  a.href = href;
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+  a.textContent = text;
+  return a;
+}
+
 function ordinal(index) {
   return String(index + 1).padStart(2, '0');
 }
@@ -180,14 +199,7 @@ export function renderStore(store, index) {
   name.textContent = store.name;
   body.appendChild(name);
 
-  if (store.subtitle) {
-    const sub = document.createElement('p');
-    sub.className = 'ticket__subtitle';
-    sub.textContent = store.subtitle;
-    body.appendChild(sub);
-  }
-
-  const lines = [store.address, store.hours].filter(Boolean);
+  const lines = [store.address, store.telDisplay].filter(Boolean);
   if (lines.length > 0) {
     const wrap = document.createElement('p');
     wrap.className = 'ticket__lines';
@@ -200,28 +212,35 @@ export function renderStore(store, index) {
   }
   li.appendChild(body);
 
-  // --- 動作列（撕線之上） ---
+  // --- 動作列（撕線之上，撕開後仍可使用） ---
+  // 每個按鈕都對應一個資料欄位，欄位是空的就不渲染該按鈕。
   const actions = document.createElement('div');
   actions.className = 'ticket__actions';
 
-  const nav = document.createElement('a');
-  nav.className = 'ticket__nav';
-  nav.href = navUrl(store);
-  nav.target = '_blank';
-  nav.rel = 'noopener noreferrer';
-  nav.textContent = '導航前往';
-  actions.appendChild(nav);
-
-  if (store.instagram) {
-    const link = document.createElement('a');
-    link.className = 'ticket__reveal';
-    link.href = store.instagram;
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
-    link.textContent = 'Instagram ↗';
-    actions.appendChild(link);
+  if (store.address) {
+    actions.appendChild(externalLink('ticket__nav', navUrl(store), '導航前往'));
   }
   li.appendChild(actions);
+
+  const links = document.createElement('div');
+  links.className = 'ticket__links';
+
+  if (store.link) {
+    const label = isInstagram(store.link) ? 'Instagram ↗' : '查看 ↗';
+    links.appendChild(externalLink('ticket__link', store.link, label));
+  }
+  if (store.booking) {
+    links.appendChild(externalLink('ticket__link', store.booking, '預約 ↗'));
+  }
+  if (store.tel) {
+    // tel: 由手機接手撥號，桌機則交給系統預設的通話程式
+    const call = document.createElement('a');
+    call.className = 'ticket__link';
+    call.href = `tel:${store.tel}`;
+    call.textContent = '撥打電話';
+    links.appendChild(call);
+  }
+  li.appendChild(links);
 
   // --- 撕線與下半截 ---
   const perf = document.createElement('div');

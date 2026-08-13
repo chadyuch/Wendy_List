@@ -1,5 +1,5 @@
 /* ============================================================
-   Wendy List — 溫暖手感
+   Wendy's list — 溫暖手感
    色票與設計語彙集中於此，app.js 只切換 class、不寫樣式值
    ============================================================ */
 
@@ -212,11 +212,6 @@ body {
   letter-spacing: .01em;
 }
 
-.ticket__subtitle {
-  margin: 5px 0 0;
-  font-size: 11.5px;
-  color: var(--muted);
-}
 
 .ticket__lines {
   margin: 9px 0 0;
@@ -229,12 +224,15 @@ body {
 
 /* 動作列（撕線之上，撕開後仍在） ----------------------- */
 
+/* 沒有對應資料時整列不渲染，因此用 :empty 收掉間距 */
 .ticket__actions {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 11px 14px 12px;
+  padding: 11px 14px 0;
 }
+
+.ticket__actions:empty { display: none; }
 
 .ticket__nav {
   flex: 1;
@@ -248,15 +246,24 @@ body {
   letter-spacing: .06em;
 }
 
-.ticket__reveal {
-  padding: 9px 12px;
+.ticket__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  padding: 9px 14px 12px;
+}
+
+.ticket__links:empty { display: none; }
+
+.ticket__link {
+  padding: 8px 13px;
   border: 1px solid #c9b795;
   border-radius: 5px;
   background: none;
   color: var(--muted);
-  font: inherit;
   font-size: 11px;
-  cursor: pointer;
+  text-decoration: none;
+  letter-spacing: .04em;
 }
 
 /* 撕線與下半截 ---------------------------------------- */
@@ -323,7 +330,6 @@ body {
 .ticket.is-visited { background: #f3ede2; border-color: #ddd2be; }
 .ticket.is-visited .ticket__visual { filter: grayscale(.7) brightness(.95); }
 .ticket.is-visited .ticket__name,
-.ticket.is-visited .ticket__subtitle,
 .ticket.is-visited .ticket__lines { color: #6b6252; }
 /* 撕走的下半截不可再被點到，避免攔截復原按鈕的點擊 */
 .ticket.is-visited .ticket__stub { opacity: 0; pointer-events: none; }
