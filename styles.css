@@ -47,12 +47,40 @@ body {
 
 .masthead { margin-bottom: 26px; }
 
+/* 標題、副標、貓掌並排。副標可換行，兩側元素不壓縮。 */
+.masthead__top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .masthead__title {
+  flex: none;
   font-family: var(--serif);
   font-weight: 600;
-  font-size: 26px;
-  letter-spacing: .06em;
+  font-size: 23px;
+  letter-spacing: .04em;
   margin: 0;
+}
+
+.masthead__tagline {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-size: 10px;
+  line-height: 1.55;
+  letter-spacing: .02em;
+  color: var(--muted);
+}
+
+.masthead__tagline span { display: block; }
+
+/* 純裝飾，壓低不透明度才不會跟標題搶焦點 */
+.masthead__paw {
+  flex: none;
+  width: 38px;
+  height: 38px;
+  opacity: .3;
 }
 
 .masthead__meta {
