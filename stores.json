@@ -106,5 +106,17 @@
     "booking": null,
     "photo": "images/duoer.jpg",
     "photoCredit": "圖片來源 blue74.net"
+  },
+  {
+    "id": "like-a-fish",
+    "name": "Like a Fish",
+    "address": "臺中市北屯區水湳里大連西路18號",
+    "tel": null,
+    "telDisplay": null,
+    "navQuery": "Like a Fish 臺中市北屯區水湳里大連西路18號",
+    "link": "https://www.instagram.com/like_a_fish_restaurant/",
+    "booking": "https://shop.ichefpos.com/store/QzTPkwPm/reserve",
+    "photo": "images/like-a-fish.jpg",
+    "photoCredit": "圖片來源 30select.com"
   }
 ]
