@@ -29,6 +29,7 @@ const ID_BY_NAME = {
   'Riso Riso': 'riso-riso',
   '多爾法式烘焙': 'duoer',
   'Like a Fish': 'like-a-fish',
+  '居無定所Homeless': 'homeless',
 };
 
 // 既有圖片的來源標註。xlsx 沒有這個欄位，但這些照片都是別人拍的，

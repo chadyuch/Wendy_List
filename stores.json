@@ -118,5 +118,17 @@
     "booking": "https://shop.ichefpos.com/store/QzTPkwPm/reserve",
     "photo": "images/like-a-fish.jpg",
     "photoCredit": "圖片來源 30select.com"
+  },
+  {
+    "id": "homeless",
+    "name": "居無定所Homeless",
+    "address": "臺中市西區公舘里永成街77號",
+    "tel": "0423766799",
+    "telDisplay": "04-2376-6799",
+    "navQuery": "居無定所Homeless 臺中市西區公舘里永成街77號",
+    "link": "https://www.instagram.com/homeless_2477/",
+    "booking": "https://shop.ichefpos.com/store/62HbOTKt/reserve",
+    "photo": "images/homeless.jpg",
+    "photoCredit": "圖片來源 blue74.net"
   }
 ]
